@@ -1,39 +1,43 @@
-import React, {Component} from 'React'
+import React, { Component } from 'react'
 import axios from 'axios'
 
 import PageHeader from '../template/pageHeader'
 import TodoForm from './todoForm'
-import Todolist from './todoList'
+import TodoList from './todoList'
 
 const URL = 'http://localhost:3003/api/todos'
 
-export default class todo extends Component {
-    constructor(props) {
+export default class Todo extends Component {
+
+  constructor(props) {
         super(props)
         this.state = { description: '', list: [] }
 
         this.handleChange = this.handleChange.bind(this)
         this.handleAdd = this.handleAdd.bind(this)
-    }
+  }
     handleChange(e) {
-        this.setState({...this.state, description: e.target.value })
+         this.setState({...this.state, description: e.target.value })
     }
     handleAdd() {
         const description = this.state.description
         axios.post(URL, { description })
-        .then(resp => console.log('funcionou'))
-        
+        .then(resp => console.log('Funcionou!'+JSON.stringify(resp)))
+        .catch(error =>{
+            console.log('Funcionou!'+error)
+        })
+      
     }
-
     render() {
         return (
             <div>
-               <PageHeader name='Tarefas' small='Cadastro'></PageHeader>
-               <TodoForm description={this.state.description}
-               handleChange={this.handleChange}
-               handleAdd={this.handleAdd} />
-               <Todolist />
+                <PageHeader name='Tarefas' small='Cadastro'></PageHeader>
+                <TodoForm description={this.state.description}
+                handleChange={this.handleChange}
+                handleAdd={this.handleAdd} />
+                <TodoList />
             </div>
         )
     }
-}   
+}
+  
